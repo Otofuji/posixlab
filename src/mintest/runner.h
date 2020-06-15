@@ -4,6 +4,10 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include "timer.h"
+
+int child_pass_count = 0;
+
 
 void white() {
     printf("\033[0m");
@@ -26,12 +30,22 @@ void blue() {
 }
 
 
+void run_all_test(int i) {
+    if (all_tests[i].function() >= 0)
+        {
+            child_pass_count = 1;
+        }
+    
+        
+}
+
 
 int main(int argc, char *argv[])
 {
 
-    int size = sizeof(all_tests) / sizeof(test_data), pass_count = 0, child_pass_count = 0, wt = 0;
+    int size = sizeof(all_tests) / sizeof(test_data), pass_count = 0, wt = 0;
     pid_t child, wpid;
+    
 
     if (argc == 1)
     {
@@ -43,16 +57,17 @@ int main(int argc, char *argv[])
 
         for (int i = 0; i < size; i++)
         {
+            
+            
             child = fork();
+            
+            
+
             if (child == 0)
             {
-                if (all_tests[i].function() >= 0)
-                {
-                    green();
-                    printf("%s: [PASS]\n", all_tests[i].name);
-                    white();
-                    child_pass_count = 1;
-                }
+                
+                //run_all_test(i);
+                watchdog_worker_timer(run_all_test, 2000, i);
                 break;
             }
         }
@@ -81,9 +96,10 @@ int main(int argc, char *argv[])
 
     else
     {
+        
         white();
         printf("\n\n=====================\n\n");
-        printf("Running %d tests:\n", size);
+        printf("Running %d tests:\n, ARGC: %d", size, argc);
         printf("\n=====================\n\n");
         
 

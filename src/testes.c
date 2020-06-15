@@ -21,7 +21,7 @@ void cyan() {
 int test1() {
     int *vetor = malloc(1);
     yellow();
-    test_assert(vetor[5] == 18, "SEGMENTATION FAULT TEST");
+    test_assert(vetor[5] == 18, "FAULT TEST SEGMENTATION");
     terminal();
     free(vetor);
     return 0;
@@ -29,17 +29,16 @@ int test1() {
 
 int test2() {
     yellow();
-    test_assert(1/0 == 5, "DIVISION BY ZERO FAULT TEST");
+    test_assert(1/0 == 5, "FAULT TEST DIVISION BY ZERO");
     terminal();
     return 0;
 }
 
 int test3() {
     int t = 0;
-    alarm(2);
     while(1) {t += 1;}
     yellow();
-    printf("INIFINTE LOOP FAULT TEST");
+    printf("FAULT TEST INFINITE LOOP");
     terminal();
     return 0;
 }
@@ -49,16 +48,16 @@ int test4() {
     for (int i = 0; i < 5000; i++) {a+=1;}
     for (int i = 0; i < 5000; i++) {b+=1;}
     cyan();
-    test_assert(a == b, "LONG TASK PASS TEST");
+    test_assert(a == b, "PASS TEST LONG TASK");
     terminal();
     return 0;
 }
 
 int test5() {
     cyan();
-    test_assert(1 == 1, "ASSERT PASS TEST");
+    test_assert(1 == 1, "PASS TEST ASSERT");
     yellow();
-    test_assert(0 == 1, "ASSERT FAULT TEST");
+    test_assert(0 == 1, "FAULT TEST ASSERT");
     terminal();
     return 0;
 }
@@ -66,7 +65,7 @@ int test5() {
 int test6() {
     for (int i = 0; i < 12; i++) {
         cyan();
-        printf("DOZEN PRINT PASS TEST\n");
+        printf("PASS TEST DOZEN PRINT\n");
         terminal();
     }
     return 0;
@@ -74,11 +73,12 @@ int test6() {
 
 int test7() {
     cyan();
-    test_assert (0 == 0, "FAST ASSERT PASS TEST");
+    test_assert (0 == 0, "PASS TEST FAST ASSERT");
     terminal();
-    sleep(2);
+
+    sleep(1);
     cyan();
-    test_assert (1 != 0, "SLOW ASSERT PASS TEST");
+    test_assert (1 != 0, "PASS TEST SLOW ASSERT");
     terminal();
     return 0;
 }
