@@ -59,7 +59,7 @@ int test5() {
     yellow();
     test_assert(0 == 1, "FAULT TEST ASSERT");
     terminal();
-    return 0;
+    return 1;
 }
 
 int test6() {

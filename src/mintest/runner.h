@@ -64,16 +64,9 @@ int main(int argc, char *argv[])
 
         for (int i = 0; i < size; i++)
         {
-            
-            
             child = fork();
-            
-            
-
             if (child == 0)
             {
-                
-                //run_all_test(i);
                 child_pass_count = !watchdog_worker_timer(run_all_test, 2000, i);
                 break;
             }
@@ -110,21 +103,28 @@ int main(int argc, char *argv[])
         printf("\n=====================\n\n");
         
 
+
         for (int i = 0; i < size; i++)
         {
             if (strcmp(all_tests[i].name, argv[1]) == 0)
-            {
-                if (all_tests[i].function() >= 0)
+            {    
+                child = fork();
+                if (child == 0)
                 {
-                    green();
-                    printf("%s: [PASS]\n", all_tests[i].name);
-                    white();
-                    pass_count++;
-                    
+                    child_pass_count = !watchdog_worker_timer(run_all_test, 2000, i);
+                    break;
                 }
-            }
+            } 
         }
 
+        if (child == 0)
+        {
+
+            return child_pass_count || child_pass_count;
+        }
+
+        while ((wpid = wait(&wt)) > 0)
+        
         white();
         printf("\n\n=====================\n\n");
         printf("%d/%d tests passed\n", pass_count, argc - 1);
