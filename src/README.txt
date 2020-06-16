@@ -48,7 +48,7 @@ Cabe ressaltar que esta sessão explica somente as modificações feitas nos arq
 
     Verificação do tamanho dos argumentos passados. Se argc == 1, executa todos os testes. Senão, somente o teste desejado.
 
-    Roda testes em paralelo por meio de processos filhos e processos netos. A justificativa para a existẽncia de processos netos será dada na sessão 2.3. A justificativa para a saída da chamada da função que cria o processo neto também será dada na sessão 2.3.
+    Roda testes em paralelo por meio de processos filhos e processos netos. A justificativa para a existẽncia de processos netos será dada na sessão 2.3. A justificativa para a saída da chamada da função que cria o processo neto ser negada também será dada na sessão 2.3 (e veremos que o processo filho também nega a saída do processo neto por conta das convenções de C de EXIT_FAILURE e EXIT_SUCCESS, e devido ao comportamento que esperamos no PosixLab).
 
     Processo pai verifica se processo neto foi bem sucedido na verificação de run_all_test. Caso tenha sido, retorna child_pass_count e soma 1 ao contador de quantas funções foram bem sucedidas para todos os testes.
 
