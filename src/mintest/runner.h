@@ -36,7 +36,7 @@ int run_all_test(int i) {
             return 1;
         }
 
-    else if (all_tests[i].function() > 0) { //if some tests pass but some fail
+    else if (all_tests[i].function() == 1) { //if some tests pass but some fail
         return 0;
         printf("NOT ALL ASSERTS WERE SUCCEEDED BUT NOT ALL FAILED - CHECK LOG FOR DETAILS\n");
     }
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
         if (child == 0)
         {
 
-            return child_pass_count || child_pass_count;
+            return child_pass_count;
         }
 
         while ((wpid = wait(&wt)) > 0)
