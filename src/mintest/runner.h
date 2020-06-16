@@ -30,11 +30,18 @@ void blue() {
 }
 
 
-void run_all_test(int i) {
-    if (all_tests[i].function() >= 0)
+int run_all_test(int i) {
+    if (all_tests[i].function() == 0) //if all tests pass
         {
-            child_pass_count = 1;
+            return 1;
         }
+
+    else if (all_tests[i].function() > 0) { //if some tests pass but some fail
+        return 0;
+        printf("NOT ALL ASSERTS WERE SUCCEEDED BUT NOT ALL FAILED - CHECK LOG FOR DETAILS\n");
+    }
+
+    else {return 0;} //if all tests failed
     
         
 }
@@ -67,7 +74,7 @@ int main(int argc, char *argv[])
             {
                 
                 //run_all_test(i);
-                watchdog_worker_timer(run_all_test, 2000, i);
+                child_pass_count = !watchdog_worker_timer(run_all_test, 2000, i);
                 break;
             }
         }
@@ -75,7 +82,7 @@ int main(int argc, char *argv[])
         if (child == 0)
         {
 
-            return child_pass_count;
+            return child_pass_count || child_pass_count;
         }
 
         while ((wpid = wait(&wt)) > 0)

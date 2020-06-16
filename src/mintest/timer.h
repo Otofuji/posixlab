@@ -26,11 +26,11 @@ With improvements to fit this posixlab.
 #include <sys/time.h>
 #include <unistd.h>
 
-typedef void (*work_t)(int);
+typedef int (*work_t)(int);
 
 pid_t waitpid_eintr(int *status);
 
-void watchdog_worker_timer(work_t work, long long timeout, int i);
+int watchdog_worker_timer(work_t work, long long timeout, int i);
 
 void handle_alarm_signal(int signal, siginfo_t *info, void *context);
 void setup_timer(long long timeout);
@@ -70,7 +70,7 @@ pid_t waitpid_eintr(int *status) {
   return pid;
 }
 
-void watchdog_worker_timer(work_t work, long long timeout, int i) {
+int watchdog_worker_timer(work_t work, long long timeout, int i) {
   const pid_t timer_pid = fork();
   if (timer_pid == -1) {
     perror("fork timer");
@@ -90,8 +90,11 @@ void watchdog_worker_timer(work_t work, long long timeout, int i) {
   }
   if (worker_pid == 0) {
     /// Worker process
-    work(i);
-    exit(0);
+    int child_child_pass_count = work(i);
+    if (child_child_pass_count == 1) {
+      exit(EXIT_SUCCESS);
+    }
+    else {exit(EXIT_FAILURE);}
   }
 
   int status = 0;
@@ -101,9 +104,11 @@ void watchdog_worker_timer(work_t work, long long timeout, int i) {
     printf("%s: [TIME] FAULT CAUSED BY RUNTIME TIMEOUT \n", all_tests[i].name);
     extinguisher();
     kill(worker_pid, SIGKILL);
+    return EXIT_FAILURE;
   } else if (finished_first == worker_pid) {
-    
+    return !WEXITSTATUS(status);
     kill(timer_pid, SIGKILL);
+
   } 
 //   else {
 //     assert(0 && "Something went wrong");
