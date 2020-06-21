@@ -8,11 +8,12 @@ ERIC FERNANDO OTOFUJI ABRANTES
 
 
 1. INTRODUÇÃO
-Implementação de conjunto de testes baseadas no exemplo original, aprimorando os headers para expandir o conjunto de funcionalidades das rotinas de testes unitários em C, de acordo com os requisitos emitidos pelo enunciado.
+Implementação de conjunto de testes baseados no exemplo original, aprimorando os headers para expandir o conjunto de funcionalidades das rotinas de testes unitários em C, de acordo com os requisitos emitidos pelo enunciado.
 
 No item 2. IMPLEMENTAÇÃO DE REQUISITOS, será detalhada a implementação da expansão de requisitos dos arquivos headers modificados, disponíveis em src/mintest/.
 
-No item 3. IMPLEMENTAÇÃO DE NOVOS TESTES, será detalhada a implementação de testes escritos pelo próprio autor no arquivo src/testes.c. O executável testes deve estar disponível no mesmo diretório. Caso não, pode ser compilado por meio do comando gcc -Wall -pedantic -std=gnu99 -Og -o testes testes.c.
+No item 3. IMPLEMENTAÇÃO DE NOVOS TESTES, será detalhada a implementação de testes escritos pelo próprio autor no arquivo src/testes.c. O executável testes deve estar disponível no mesmo diretório. Caso não, pode ser compilado por meio do comando: 
+    gcc -Wall -pedantic -std=gnu99 -Og -o testes testes.c
 
 Os requisitos implementados foram:
     1. Execução de testes de maneira isolada
@@ -20,16 +21,16 @@ Os requisitos implementados foram:
     3. Execução de um teste específico
     4. Tempo limite de execução dos testes
     5. Relatório de erros dos testes que falharam
-    6. PENDENTE
-    7. PENDENTE
-    8. PENDENTE
-    9. PENDENTE
+    6. [NÃO IMPLEMENTADO]
+    7. [NÃO IMPLEMENTADO]
+    8. [NÃO IMPLEMENTADO]
+    9. [NÃO IMPLEMENTADO]
 
 Os itens 1-3 são requisitos do C, 4-6 do B e 7-9 do A. 
 
 Além disso, funcionalidades extras foram implementadas:
     1. Status dos testes são impressos em cores
-    2. PENDENTE
+    2. [NÃO IMPLEMENTADO]
 
 Os itens 1-2 são bônus. 
 
@@ -37,7 +38,7 @@ Os itens 1-2 são bônus.
 2. IMPLEMENTAÇÃO DE REQUISITOS 
 Os requisitos foram implementados em três arquivos header: timer.h, macros.h e runner.h, disponíveis em src/mintest e foram desenhados à parte testes indepententes em src/testes.c. Os testes serão descritos na sessão 3. Esta sessão se limita à discussão da implementação dos headers em src/mintest.
 
-Cabe ressaltar que esta sessão explica somente as modificações feitas nos arquivos originais e o uma visão geral do novo arquivo timer.h não previsto anteriormente. O que já estava implementado antes no conjunto exemplo não será comentado.
+Cabe ressaltar que esta sessão explica somente as modificações feitas nos arquivos originais e uma visão geral do novo arquivo timer.h não previsto anteriormente. O que já estava implementado antes no conjunto exemplo não será comentado.
 
     2.1. runner.h
     Adição de funções de suporte para alterar as cores das saídas de terminal: void white(), void green(), void red(), void ambar() e void blue(). 
@@ -53,7 +54,7 @@ Cabe ressaltar que esta sessão explica somente as modificações feitas nos arq
     Processo pai verifica se processo neto foi bem sucedido na verificação de run_all_test. Caso tenha sido, retorna child_pass_count e soma 1 ao contador de quantas funções foram bem sucedidas para todos os testes.
 
     2.2. macros.h
-    Adição de funções de suporte para alterar as cores das saídas de terminal: void fire(), void end_of_error() e void lime(). O motivo sincero de terem sido criadas funções de nome diferentes com a mesma função das funções de cores mencioadas na sessão 2.1 é gambiarra para resolver bug. 
+    Adição de funções de suporte para alterar as cores das saídas de terminal: void fire(), void end_of_error() e void lime(). O motivo sincero de terem sido criadas funções de nome diferentes com a mesma função das funções de cores mancionadas na sessão 2.1 é gambiarra para resolver bug. 
     
     A mesma gambiarra foi feita na sessão 2.3 com as funções void flame() e void extinguiser() pelo mesmo motivo. Isto não será mencionado novamente em 2.3 porque já foi dito aqui.
     
@@ -65,7 +66,9 @@ Cabe ressaltar que esta sessão explica somente as modificações feitas nos arq
 
     Basicamente, o conteúdo de timer.h é a implementação sugerida pelo autor, mas com algumas modificações que foram feitas na proposta original para as necessidades do PosixLab. A explicação da implementação pode ser vista no link indicado acima. Aqui, serão detalhadas as modificações feitas em cima desse header.
 
-    A função que cria os processos de teste e de contagem de tempo teve a estrutura alterada para conversar melhor com runner.h, sendo alterada para int watchdog_worker_timer(work_t work, long long timeout, int i), que cria processos filhos. 
+    A função que cria os processos de teste e de contagem de tempo teve a estrutura alterada para conversar melhor com runner.h, sendo alterada para: 
+        int watchdog_worker_timer(work_t work, long long timeout, int i)
+    que cria processos filhos. 
     
     Todavia, é lembrado que a chamada para watchdog_worker_timer é feita num processo filho em runner.h. Logo, aqui na verdade são criados dois processos netos. 
 
@@ -114,4 +117,4 @@ Alguns testes foram desenhados para propositalmente dar erro e outros testes for
 
     PASS TEST FAST ASSERT: Verifica se 0 == 0. Espera-se que o status de saída seja [PASS].
 
-    PASS TEST SLOW ASSERTÇ Verifica se 1 != 0 após aguardar um segundo. Espera-se que o status de saída seja [PASS] e a função consiga retornar zero. 
+    PASS TEST SLOW ASSERT: Verifica se 1 != 0 após aguardar um segundo. Espera-se que o status de saída seja [PASS] e a função consiga retornar zero. 
